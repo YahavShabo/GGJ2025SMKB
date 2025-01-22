@@ -5,11 +5,12 @@ using UnityEngine.UI;
 
 public class Life : MonoBehaviour
 {
-    public float gS;// gravity scale
+    public float defaultGS;// gravity scale
+    float currentGS;
     // Start is called before the first frame update
     void Start()
     {
-        gS = GetComponent<Rigidbody2D>().gravityScale;
+        defaultGS = GetComponent<Rigidbody2D>().gravityScale;
     }
 
     // Update is called once per frame
