@@ -5,17 +5,38 @@ using UnityEngine.UI;
 
 public class Life : MonoBehaviour
 {
-    public float defaultGS;// gravity scale
-    float currentGS;
+    public float defaultGS = 1;// gravity scale
+    public float currentGS;
+    public float hitTime;
+    public float recoverDelay = 3;
+    public float recoverRate = 0.05f;
+    public Rigidbody2D rb;
     // Start is called before the first frame update
     void Start()
     {
-        defaultGS = GetComponent<Rigidbody2D>().gravityScale;
+        rb = GetComponent<Rigidbody2D>();
+        defaultGS = rb.gravityScale;
+        currentGS = defaultGS;
     }
 
     // Update is called once per frame
-    void Update()
+    void FixedUpdate()
     {
-        
+        if (Time.timeSinceLevelLoad - hitTime >= recoverDelay && currentGS < defaultGS)
+        {
+            currentGS += recoverRate;
+        }
+        else if (currentGS >= defaultGS)
+        {
+            currentGS = defaultGS;
+            rb.gravityScale = defaultGS;
+        }
+    }
+
+    public void Damage(float damage)
+    {
+        rb.gravityScale -= damage;
+        currentGS = rb.gravityScale;
+        hitTime = Time.timeSinceLevelLoad;
     }
 }

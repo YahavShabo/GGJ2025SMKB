@@ -22,7 +22,7 @@ public class Bubble : MonoBehaviour
         if(other.tag=="enemy")
         {
             other.GetComponent<Rigidbody2D>().gravityScale -= dmg;
-            //other.GetComponent<Life>().lastHit = Time.timeSinceLevelLoad;
+            other.GetComponent<Life>().Damage(dmg);
         }
     }
 }
