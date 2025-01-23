@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 8529772972006930554}
   - component: {fileID: 8529772972006930553}
   - component: {fileID: 8529772972006930556}
+  - component: {fileID: -8733835889667895880}
   m_Layer: 0
   m_Name: Jumpy
   m_TagString: enemy
@@ -76,7 +77,7 @@ SpriteRenderer:
   m_SortingLayerID: 0
   m_SortingLayer: 0
   m_SortingOrder: 0
-  m_Sprite: {fileID: 7482667652216324306, guid: 48e93eef0688c4a259cb0eddcd8661f7, type: 3}
+  m_Sprite: {fileID: -2413806693520163455, guid: ebe73ca9363db456bacf42c025bb4847, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -128,6 +129,22 @@ MonoBehaviour:
   rightX: 0
   XVelocity: 2
   YVelocity: 5
+--- !u!58 &-8733835889667895880
+CircleCollider2D:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8529772972006930552}
+  m_Enabled: 1
+  m_Density: 1
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_UsedByEffector: 0
+  m_UsedByComposite: 0
+  m_Offset: {x: 0, y: 0}
+  serializedVersion: 2
+  m_Radius: 0.5
 --- !u!1 &8529772972244932119
 GameObject:
   m_ObjectHideFlags: 0

@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public abstract class Enemy : MonoBehaviour
+public class Enemy : MonoBehaviour
 {
     Transform player;
     public float speed = 3;
@@ -12,6 +12,7 @@ public abstract class Enemy : MonoBehaviour
     //x positions to turn around on when moving freely
     public float leftX=0;
     public float rightX=0;
+    bool playerClose;
     // Start is called before the first frame update
     void Start()
     {
@@ -32,6 +33,14 @@ public abstract class Enemy : MonoBehaviour
         else
         {
             MoveFreely();
+        }
+        transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+        // Ensure the position stays within leftX and rightX
+        float clampedX = Mathf.Clamp(transform.position.x, leftX, rightX);
+        transform.position = new Vector2(clampedX, transform.position.y);
+        if(Time.timeSinceLevelLoad - LastAttackTime >= attactkRate && playerClose)
+        {
+            Attack();
         }
     }
     protected void FacePlayer()
@@ -77,5 +86,9 @@ public abstract class Enemy : MonoBehaviour
             player = other.transform;
         }
     }
-    public abstract void Attack();
+    public void Attack()
+    {
+        //play animation
+        
+    }
 }
