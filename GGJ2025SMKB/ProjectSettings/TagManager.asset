@@ -6,6 +6,7 @@ TagManager:
   tags:
   - enemy
   - spike
+  - Ground
   layers:
   - Default
   - TransparentFX

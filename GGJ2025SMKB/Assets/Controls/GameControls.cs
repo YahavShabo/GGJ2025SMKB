@@ -62,6 +62,15 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": false
+                },
+                {
+                    ""name"": ""Jump"",
+                    ""type"": ""Button"",
+                    ""id"": ""c43dd789-4313-4524-8ffc-94f135dda173"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
@@ -240,6 +249,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""action"": ""FlyingBubble"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""761eccb6-5ce9-4f97-a42a-909cda8e59b9"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -252,6 +272,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         m_Controls_Aim = m_Controls.FindAction("Aim", throwIfNotFound: true);
         m_Controls_Fire = m_Controls.FindAction("Fire", throwIfNotFound: true);
         m_Controls_FlyingBubble = m_Controls.FindAction("FlyingBubble", throwIfNotFound: true);
+        m_Controls_Jump = m_Controls.FindAction("Jump", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -315,6 +336,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Aim;
     private readonly InputAction m_Controls_Fire;
     private readonly InputAction m_Controls_FlyingBubble;
+    private readonly InputAction m_Controls_Jump;
     public struct ControlsActions
     {
         private @GameControls m_Wrapper;
@@ -323,6 +345,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         public InputAction @Aim => m_Wrapper.m_Controls_Aim;
         public InputAction @Fire => m_Wrapper.m_Controls_Fire;
         public InputAction @FlyingBubble => m_Wrapper.m_Controls_FlyingBubble;
+        public InputAction @Jump => m_Wrapper.m_Controls_Jump;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -344,6 +367,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @FlyingBubble.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
                 @FlyingBubble.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
                 @FlyingBubble.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
+                @Jump.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
+                @Jump.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
+                @Jump.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnJump;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -360,6 +386,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @FlyingBubble.started += instance.OnFlyingBubble;
                 @FlyingBubble.performed += instance.OnFlyingBubble;
                 @FlyingBubble.canceled += instance.OnFlyingBubble;
+                @Jump.started += instance.OnJump;
+                @Jump.performed += instance.OnJump;
+                @Jump.canceled += instance.OnJump;
             }
         }
     }
@@ -370,5 +399,6 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
         void OnFlyingBubble(InputAction.CallbackContext context);
+        void OnJump(InputAction.CallbackContext context);
     }
 }

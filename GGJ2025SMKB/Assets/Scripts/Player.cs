@@ -30,6 +30,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public Vector2 move;
     public bool inBubble = false;//if inside of a bubble gs = 0
     public Animator anim;
+    public float jumpForce = 3f;
+    bool canJump = true;
+    bool grounded;
+    float lastGround;
+    float jumpCD = 1f;
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -43,6 +48,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     void Start()
     {
         lastfire = -fireRate;
+        lastGround = -jumpCD;
     }
 
     // Update is called once per frame
@@ -201,5 +207,40 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         //depends on what phase
         Debug.Log("launch");
+    }
+
+    public void OnJump(InputAction.CallbackContext context)
+    {
+        if (context.performed && canJump)
+        {
+            //call jump anim
+            canJump = false;
+        }
+    }
+    public void Jump()
+    {
+        GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpForce);
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if (grounded && Time.timeSinceLevelLoad >= lastGround + jumpCD)
+        {
+            canJump = true;
+        }
+    }
+    private void OnCollisionEnter2D(Collision2D other)
+    {
+        if (other.collider.tag == "Ground")
+        {
+            grounded = true;
+            lastGround = Time.timeSinceLevelLoad;
+        }
+    }
+    private void OnCollisionExit2D(Collision2D other)
+    {
+        if (other.collider.tag == "Ground")
+        {
+            grounded = false;
+        }
     }
 }
