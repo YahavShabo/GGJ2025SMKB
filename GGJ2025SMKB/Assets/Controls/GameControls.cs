@@ -31,7 +31,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""name"": ""Movment"",
                     ""type"": ""Value"",
                     ""id"": ""2dd41819-587f-4f2e-a034-feb0e2fbb6ee"",
-                    ""expectedControlType"": ""Axis"",
+                    ""expectedControlType"": ""Vector2"",
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
@@ -53,13 +53,22 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""processors"": """",
                     ""interactions"": """",
                     ""initialStateCheck"": true
+                },
+                {
+                    ""name"": ""FlyingBubble"",
+                    ""type"": ""Button"",
+                    ""id"": ""9eb826a4-6af4-4d09-bb6b-faea553a078d"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """",
+                    ""initialStateCheck"": false
                 }
             ],
             ""bindings"": [
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""c65d4ddb-4bdf-45d7-9d44-5e0956425202"",
-                    ""path"": ""1DAxis"",
+                    ""name"": ""2D Vector"",
+                    ""id"": ""15225e25-687f-4dab-913f-81ad798d8c11"",
+                    ""path"": ""2DVector"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -68,9 +77,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": false
                 },
                 {
-                    ""name"": ""negative"",
-                    ""id"": ""8f14506b-9ad6-4583-99ce-07c90737e6dc"",
-                    ""path"": ""<Gamepad>/leftStick/left"",
+                    ""name"": ""up"",
+                    ""id"": ""da2b8247-5902-4420-9899-6ed52871d253"",
+                    ""path"": ""<Keyboard>/w"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -79,9 +88,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""4e0dbc9a-746d-43a2-86da-9ecd74c5b888"",
-                    ""path"": ""<Gamepad>/leftStick/right"",
+                    ""name"": ""down"",
+                    ""id"": ""6d0122e1-34fe-41fa-8577-641974b9c93b"",
+                    ""path"": ""<Keyboard>/s"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": """",
@@ -90,19 +99,8 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""1D Axis"",
-                    ""id"": ""60f6b4af-bc04-462a-8e16-ba41bdb07a9a"",
-                    ""path"": ""1DAxis"",
-                    ""interactions"": """",
-                    ""processors"": """",
-                    ""groups"": """",
-                    ""action"": ""Movment"",
-                    ""isComposite"": true,
-                    ""isPartOfComposite"": false
-                },
-                {
-                    ""name"": ""negative"",
-                    ""id"": ""cda529e1-4eff-4456-b4c3-8ad584c731d1"",
+                    ""name"": ""left"",
+                    ""id"": ""1ecce36c-4cb8-4ac6-b18b-550a963cfa93"",
                     ""path"": ""<Keyboard>/a"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -112,8 +110,8 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""isPartOfComposite"": true
                 },
                 {
-                    ""name"": ""positive"",
-                    ""id"": ""a7a53939-d1ce-4c91-a134-57bc96c9eef6"",
+                    ""name"": ""right"",
+                    ""id"": ""7ffe3d0b-eccf-4731-a01d-a3454bad64f8"",
                     ""path"": ""<Keyboard>/d"",
                     ""interactions"": """",
                     ""processors"": """",
@@ -121,6 +119,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""action"": ""Movment"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": true
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""1832aeec-91bd-4f97-9eee-d241ec8c0eeb"",
+                    ""path"": ""<Gamepad>/leftStick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Movment"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 },
                 {
                     ""name"": """",
@@ -220,6 +229,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                     ""action"": ""Fire"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""82068a12-23b3-454f-aa8c-3bee7b9f1f4a"",
+                    ""path"": ""<Gamepad>/rightShoulder"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""FlyingBubble"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -231,6 +251,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         m_Controls_Movment = m_Controls.FindAction("Movment", throwIfNotFound: true);
         m_Controls_Aim = m_Controls.FindAction("Aim", throwIfNotFound: true);
         m_Controls_Fire = m_Controls.FindAction("Fire", throwIfNotFound: true);
+        m_Controls_FlyingBubble = m_Controls.FindAction("FlyingBubble", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -293,6 +314,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
     private readonly InputAction m_Controls_Movment;
     private readonly InputAction m_Controls_Aim;
     private readonly InputAction m_Controls_Fire;
+    private readonly InputAction m_Controls_FlyingBubble;
     public struct ControlsActions
     {
         private @GameControls m_Wrapper;
@@ -300,6 +322,7 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         public InputAction @Movment => m_Wrapper.m_Controls_Movment;
         public InputAction @Aim => m_Wrapper.m_Controls_Aim;
         public InputAction @Fire => m_Wrapper.m_Controls_Fire;
+        public InputAction @FlyingBubble => m_Wrapper.m_Controls_FlyingBubble;
         public InputActionMap Get() { return m_Wrapper.m_Controls; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -318,6 +341,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Fire.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFire;
                 @Fire.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFire;
                 @Fire.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFire;
+                @FlyingBubble.started -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
+                @FlyingBubble.performed -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
+                @FlyingBubble.canceled -= m_Wrapper.m_ControlsActionsCallbackInterface.OnFlyingBubble;
             }
             m_Wrapper.m_ControlsActionsCallbackInterface = instance;
             if (instance != null)
@@ -331,6 +357,9 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 @Fire.started += instance.OnFire;
                 @Fire.performed += instance.OnFire;
                 @Fire.canceled += instance.OnFire;
+                @FlyingBubble.started += instance.OnFlyingBubble;
+                @FlyingBubble.performed += instance.OnFlyingBubble;
+                @FlyingBubble.canceled += instance.OnFlyingBubble;
             }
         }
     }
@@ -340,5 +369,6 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
         void OnMovment(InputAction.CallbackContext context);
         void OnAim(InputAction.CallbackContext context);
         void OnFire(InputAction.CallbackContext context);
+        void OnFlyingBubble(InputAction.CallbackContext context);
     }
 }

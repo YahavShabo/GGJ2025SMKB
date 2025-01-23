@@ -11,7 +11,6 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
 {
     GameControls controls;
     public float defaultGS; // Gravity scale
-    public float currentGS;
     public float moveSpeed = 4f;
     public float fireRate = 0.5f;
     public Transform rot;
@@ -24,29 +23,37 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public float resetDelay = 1;
     public float aimDir = 1;
     public float add = 0;
-    private float moveX = 0f;
     private Vector2 aim = new Vector2(0, 0);
     private float lastfire;
     private bool holdingFire = false;
     private float rotZ;
+    public Vector2 move;
+    public bool inBubble = false;//if inside of a bubble gs = 0
     void Awake() 
     {
         life = maxLife;
         controls = new GameControls();
         controls.Enable();
         controls.Controls.SetCallbacks(this);
+        defaultGS = GetComponent<Rigidbody2D>().gravityScale;
     }
     // Start is called before the first frame update
     void Start()
     {
         lastfire = -fireRate;
-
     }
 
     // Update is called once per frame
     void Update()
     {
-        gameObject.transform.Translate(moveX * moveSpeed * Time.deltaTime,0,0);
+        if (inBubble)
+        {
+            transform.Translate(move * moveSpeed * Time.deltaTime);
+        }
+        else
+        {
+            transform.Translate(move.x * moveSpeed * Time.deltaTime, 0, 0);
+        }
         Aim();
         Fire();
         if (Input.GetKeyDown(KeyCode.R)) // Example: Press "R" to trigger the event
@@ -60,11 +67,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (context.performed)
         {
-            moveX = context.ReadValue<float>();
+            move = context.ReadValue<Vector2>();
         }
         else
         {
-            moveX = 0;
+            move = Vector2.zero;
+            
         }
     }
 
@@ -106,11 +114,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         }
 
         // Update movement direction based on input
-        if (moveX > 0)
+        if (move.x > 0)
         {
             moveDir = 1;
         }
-        else if (moveX < 0)
+        else if (move.x < 0)
         {
             moveDir = -1;
         }
@@ -172,5 +180,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public void TurnOnInputSystem()
     {
         controls.Enable();
+    }
+
+    public void OnFlyingBubble(InputAction.CallbackContext context)
+    {
+        //depends on what phase
+        Debug.Log("launch");
     }
 }
