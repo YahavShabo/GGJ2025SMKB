@@ -5,6 +5,7 @@ using UnityEngine;
 public class spike : MonoBehaviour
 {
     Transform spikeChild;
+    public GameObject spikeObject;
     public bool isMoving = false;
     public float speed = 10;
     public float DestoryDelay = 3;
@@ -22,6 +23,16 @@ public class spike : MonoBehaviour
             spikeChild.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
         }
     }
+
+    public void ShootSpike()
+    {
+        if(spikeChild == null)
+        {
+            GameObject currentSpike = Instantiate(spikeObject, transform) as GameObject;
+            spikeChild = currentSpike.transform;
+        }
+        isMoving = true;
+    }
     public void DestroyInvoke()
     {
         Invoke(nameof(Destroy),DestoryDelay);
@@ -29,7 +40,11 @@ public class spike : MonoBehaviour
 
     public void Destroy()
     {
-        Destroy(spikeChild.gameObject);
+        if(spikeChild != null)
+        {
+            Destroy(spikeChild.gameObject);
+            isMoving = false;
+        }
     }
 
 }

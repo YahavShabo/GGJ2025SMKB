@@ -21,6 +21,7 @@ public class Enemy : MonoBehaviour
             leftX = transform.position.x - 5;
             rightX= transform.position.x + 5;
         }
+        LastAttackTime = -attactkRate;
     }
 
     // Update is called once per frame
@@ -81,14 +82,22 @@ public class Enemy : MonoBehaviour
 
     protected void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "player")
+        if (other.tag == "Player")
         {
+            playerClose = true;
             player = other.transform;
         }
     }
-    public void Attack()
+    protected void OnTriggerExit2D(Collider2D other)
+    {
+        if (other.tag == "Player")
+        {
+            playerClose = false;
+        }
+    }
+    public virtual void Attack()
     {
         //play animation
-        
+        LastAttackTime = Time.timeSinceLevelLoad;
     }
 }

@@ -6,14 +6,15 @@ public class Hedgehog : Enemy
 {
     spike childScript;
 
-    public void ShootSpikes()
+    public override void Attack()
     {
+        base.Attack();
         foreach (Transform child in transform)
         {
             if (child.name == "Pivot")
             {
                 childScript = child.GetComponent<spike>();
-                childScript.isMoving = true;
+                childScript.ShootSpike();
                 childScript.DestroyInvoke();
             }
         }
