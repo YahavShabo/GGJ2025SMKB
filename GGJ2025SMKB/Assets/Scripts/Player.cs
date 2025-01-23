@@ -40,6 +40,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     void Start()
     {
         lastfire = -fireRate;
+
     }
 
     // Update is called once per frame
@@ -133,10 +134,17 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         {
             GameObject lastBubble;
             //add fire anim of somekind
-            Debug.Log("fire");
             lastfire = Time.timeSinceLevelLoad;
             lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity);
-            lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized;
+            if(aim.x == 0)
+            {
+                lastBubble.GetComponent<Bubble>().transVec = new Vector3(transform.localScale.x, aim.y, 0).normalized;
+            }
+            else
+            {
+                lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized;
+            }
+            Debug.Log(lastBubble.GetComponent<Bubble>().transVec);
         }
     }
     public void RevertStats()

@@ -26,11 +26,6 @@ public class spike : MonoBehaviour
 
     public void ShootSpike()
     {
-        if(spikeChild == null)
-        {
-            GameObject currentSpike = Instantiate(spikeObject, transform) as GameObject;
-            spikeChild = currentSpike.transform;
-        }
         isMoving = true;
     }
     public void DestroyInvoke()
@@ -44,6 +39,8 @@ public class spike : MonoBehaviour
         {
             Destroy(spikeChild.gameObject);
             isMoving = false;
+            GameObject currentSpike = Instantiate(spikeObject, transform) as GameObject;
+            spikeChild = currentSpike.transform;
         }
     }
 
