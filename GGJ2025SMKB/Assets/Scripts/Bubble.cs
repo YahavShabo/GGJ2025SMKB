@@ -25,4 +25,9 @@ public class Bubble : MonoBehaviour
             other.GetComponent<Life>().Damage(dmg);
         }
     }
+    public void Pop()
+    { 
+        //use bubble pop animation
+        Destroy(gameObject);
+    }
 }

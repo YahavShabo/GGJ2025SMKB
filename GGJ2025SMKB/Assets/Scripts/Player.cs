@@ -1,3 +1,4 @@
+using Mono.Cecil;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEditor.U2D.Path.GUIFramework;
@@ -14,6 +15,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public float moveSpeed = 4f;
     float rotZ;
     public Transform rot;
+    public float fireRate = 0.5f;
+    float lastfire;
+    bool holdingFire = false;
     void Awake() 
     {
         controls = new GameControls();
@@ -23,7 +27,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     // Start is called before the first frame update
     void Start()
     {
-        
+        lastfire = -fireRate;
     }
     private void OnDestroy()
     {
@@ -35,6 +39,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         gameObject.transform.Translate(moveX * moveSpeed * Time.deltaTime,0,0);
         Aim();
+        Fire();
     }
 
     public void OnMovment(InputAction.CallbackContext context)
@@ -61,6 +66,28 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             rot.transform.rotation = Quaternion.Euler(0, 0, rotZ);
             //angle = Mathf.FloorToInt((Mathf.Atan2(aim.y, aim.x) * Mathf.Rad2Deg) + 360) % 360;
             //if needed to mirror the weapon take from GHOSTSZ
+        }
+    }
+
+    public void OnFire(InputAction.CallbackContext context)
+    {
+        if (context.performed) 
+        { 
+            holdingFire = true;
+        }
+        else
+        {
+            holdingFire = false;
+        }
+
+    }
+    public void Fire()
+    {
+        if (holdingFire && Time.timeSinceLevelLoad >= lastfire + fireRate)
+        {
+            //add fire anim of somekind
+            Debug.Log("fire");
+            lastfire = Time.timeSinceLevelLoad;
         }
     }
 }
