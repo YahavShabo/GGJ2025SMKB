@@ -136,4 +136,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized; 
         }
     }
+    public void onLoss()//OFIRRRR!
+    {
+        EventManager.RevertPhase?.Invoke();
+        //set life to max
+    }
 }

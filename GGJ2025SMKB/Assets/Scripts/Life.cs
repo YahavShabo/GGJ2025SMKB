@@ -39,4 +39,8 @@ public class Life : MonoBehaviour
         currentGS = rb.gravityScale;
         hitTime = Time.timeSinceLevelLoad;
     }
+    public void RevertToOriginal()
+    {
+        rb.gravityScale = defaultGS;
+    }
 }
