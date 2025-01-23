@@ -6,20 +6,24 @@ using UnityEngine.Rendering;
 
 public class Reverter : MonoBehaviour
 {
-    public Transform originalSp;
-    public int phase;
+    public Vector2 originalSp;
     // Start is called before the first frame update
     void Start()
     {
-        originalSp = transform;//gets the original spawn point
+        originalSp = transform.position;//gets the original spawn point
         EventManager.RevertPhase += revert;
     }
     public void revert()
     {
-        transform.position = originalSp.position;
+        Debug.Log("revert");
+        transform.position = originalSp;
         if (GetComponent<Life>() != null)
         {
             GetComponent<Life>().RevertToOriginal();
+        }
+        if (gameObject.tag == "Player")
+        {
+            GetComponent<Player>().RevertStats();
         }
     }
 }

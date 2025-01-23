@@ -17,10 +17,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public Transform rot;
     public Transform point;
     public GameObject bubble;
-
+    public int life;
+    public int maxLife = 1;
     public int angle;
     public int moveDir = 1;
-
+    public float resetDelay = 1;
     public float aimDir = 1;
     public float add = 0;
     private float moveX = 0f;
@@ -30,6 +31,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     private float rotZ;
     void Awake() 
     {
+        life = maxLife;
         controls = new GameControls();
         controls.Enable();
         controls.Controls.SetCallbacks(this);
@@ -39,10 +41,6 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         lastfire = -fireRate;
     }
-    private void OnDestroy()
-    {
-        controls.Disable();
-    }
 
     // Update is called once per frame
     void Update()
@@ -50,6 +48,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         gameObject.transform.Translate(moveX * moveSpeed * Time.deltaTime,0,0);
         Aim();
         Fire();
+        if (Input.GetKeyDown(KeyCode.R)) // Example: Press "R" to trigger the event
+        {
+            EventManager.RevertPhase?.Invoke();
+            Debug.Log("RevertPhase event invoked.");
+        }
     }
 
     public void OnMovment(InputAction.CallbackContext context)
@@ -133,12 +136,33 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             Debug.Log("fire");
             lastfire = Time.timeSinceLevelLoad;
             lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity);
-            lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized; 
+            lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized;
         }
     }
-    public void onLoss()//OFIRRRR!
+    public void RevertStats()
     {
-        EventManager.RevertPhase?.Invoke();
-        //set life to max
+        life = GetComponent<Player>().maxLife;
+        transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+        moveDir = 1;
+        aimDir = 1;
+        angle = 0;
+        rot.transform.rotation = Quaternion.Euler(0, 0, 0);
+        controls.Disable();
+        Invoke("TurnOnInputSystem", resetDelay);//one sec delay
+        //disable and enable input system
+    }
+    private void OnTriggerEnter2D(Collider2D other)
+    {
+        if (other.tag == "enemy" || other.tag == "spike")
+        {
+            if (life <= 0)
+            {
+                EventManager.RevertPhase?.Invoke();
+            }
+        }
+    }
+    public void TurnOnInputSystem()
+    {
+        controls.Enable();
     }
 }
