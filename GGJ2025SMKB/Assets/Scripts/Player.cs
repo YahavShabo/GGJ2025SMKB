@@ -29,8 +29,10 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     private float rotZ;
     public Vector2 move;
     public bool inBubble = false;//if inside of a bubble gs = 0
+    public Animator anim;
     void Awake() 
     {
+        anim = GetComponent<Animator>();
         life = maxLife;
         controls = new GameControls();
         controls.Enable();
@@ -49,10 +51,19 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if (inBubble)
         {
             transform.Translate(move * moveSpeed * Time.deltaTime);
+            anim.Play("Idle");
         }
         else
         {
             transform.Translate(move.x * moveSpeed * Time.deltaTime, 0, 0);
+            if(move.x !=0)
+            {
+                anim.Play("Walk");
+            }
+        }
+        if (move.x == 0)
+        {
+            anim.Play("Idle");
         }
         Aim();
         Fire();
@@ -174,6 +185,10 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             if (life <= 0)
             {
                 EventManager.RevertPhase?.Invoke();
+            }
+            else
+            {
+                anim.Play("Hit React");
             }
         }
     }
