@@ -9,10 +9,12 @@ public class spike : MonoBehaviour
     public bool isMoving = false;
     public float speed = 10;
     public float DestoryDelay = 3;
+    public Vector2 start;
     // Start is called before the first frame update
     void Start()
     {
         spikeChild = transform.GetChild(0);
+        start = spikeChild.position;
     }
 
     // Update is called once per frame
@@ -20,7 +22,7 @@ public class spike : MonoBehaviour
     {
         if(isMoving)
         {
-            spikeChild.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+            spikeChild.Translate(new Vector3(0, speed * Time.deltaTime, 0));
         }
     }
 
@@ -31,16 +33,18 @@ public class spike : MonoBehaviour
     public void DestroyInvoke()
     {
         Invoke(nameof(Destroy),DestoryDelay);
+        spikeChild.SetParent(null);
     }
 
     public void Destroy()
     {
         if(spikeChild != null)
         {
-            Destroy(spikeChild.gameObject);
             isMoving = false;
-            GameObject currentSpike = Instantiate(spikeObject, transform) as GameObject;
+            Destroy(spikeChild.gameObject);
+            GameObject currentSpike = Instantiate(spikeObject, transform);
             spikeChild = currentSpike.transform;
+            spikeChild.position = transform.position;
         }
     }
 
