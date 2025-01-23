@@ -15,6 +15,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public float moveSpeed = 4f;
     public float fireRate = 0.5f;
     public Transform rot;
+    public Transform point;
+    public GameObject bubble;
 
     public int angle;
     public int moveDir = 1;
@@ -126,10 +128,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (holdingFire && Time.timeSinceLevelLoad >= lastfire + fireRate)
         {
+            GameObject lastBubble;
             //add fire anim of somekind
             Debug.Log("fire");
             lastfire = Time.timeSinceLevelLoad;
+            lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity);
+            lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized; 
         }
     }
-    //public void ChangeSide()
 }

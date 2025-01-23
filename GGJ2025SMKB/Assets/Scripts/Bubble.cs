@@ -6,16 +6,18 @@ public class Bubble : MonoBehaviour
 {
     public float dmg = 0.3f;
     public float speed = 5f;
+    public Vector3 transVec;
+    public float destroyTime = 5;
     // Start is called before the first frame update
     void Start()
     {
-        
+        Invoke("Pop", destroyTime);
     }
 
     // Update is called once per frame
     void Update()
     {
-        transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+        transform.Translate(transVec * speed * Time.deltaTime);
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
