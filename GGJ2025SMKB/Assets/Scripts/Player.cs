@@ -37,9 +37,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public bool grounded = true;
     public bool jumping = false;
     public bool canShoot;
-    public bool isDashing=false;
+    public bool isDashing = false;
     float lastGround;
     float jumpCD = 1f;
+    public GameObject hand;
+    public GameObject playerBubble;
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -82,6 +84,16 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         {
             EventManager.RevertPhase?.Invoke();
             Debug.Log("RevertPhase event invoked.");
+        }
+        if (playerBubble.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Inflate") || playerBubble.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Deflate"))
+        {
+            inBubble = true;
+            GetComponent<Rigidbody2D>().gravityScale = 0;
+        }
+        else
+        {
+            inBubble = false;
+            GetComponent<Rigidbody2D>().gravityScale = 1;
         }
     }
 
@@ -164,7 +176,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if (holdingFire && Time.timeSinceLevelLoad >= lastfire + fireRate && canShoot && !isDashing)
         {
             GameObject lastBubble;
-            //add fire anim of somekind
+            hand.GetComponent<Animator>().Play("Reload", 0, 0f);
             lastfire = Time.timeSinceLevelLoad;
             lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity);
             if(aim.x == 0)
@@ -219,6 +231,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public void OnFlyingBubble(InputAction.CallbackContext context)
     {
         //depends on what phase
+        playerBubble.GetComponent<Animator>().Play("Inflate");
         Debug.Log("launch");
     }
 
