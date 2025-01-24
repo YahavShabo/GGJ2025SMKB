@@ -18,18 +18,21 @@ public class CheckPoint : MonoBehaviour
         {
             if (ID > 0)
             {
-                other.GetComponent<Player>().maxLife = ID;
-                other.GetComponent<Player>().life = ID;
+                Player player = other.GetComponent<Player>();
+                player.maxLife = ID;
+                player.life = ID;
                 other.GetComponent<Reverter>().originalSp = other.transform.position;
-                other.GetComponent<Player>().currentPhase = ID;
                 blockWall.SetActive(true);
                 if(ID ==1)
                 {
                     cam.GetComponent<MoveCam>().leftX = -30.6f;
+                    player.BubbleUnlock = true;
                 }
                 if(ID ==2)
                 {
                     cam.GetComponent<MoveCam>().leftX = 35.07f;
+                    player.DashUnlock = true;
+                    player.CanFly = true;
                 }
             }
         }

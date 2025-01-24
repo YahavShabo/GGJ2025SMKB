@@ -42,11 +42,13 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     float jumpCD = 1f;
     public GameObject hand;
     public GameObject playerBubble;
-    public int currentPhase = 0;
     public bool canBubble=true;
     public bool canDash = true;
     public float xKnockBack = 3;
     public float yKnockBack = 2;
+    public bool BubbleUnlock = false;
+    public bool DashUnlock = false;
+    public bool CanFly = false;
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -66,7 +68,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     // Update is called once per frame
     void Update()
     {
-        if (inBubble && currentPhase == 2)
+        if (inBubble && CanFly)
         {
             transform.Translate(move * currentSpeed * Time.deltaTime);
             anim.SetBool("walking", false);
@@ -248,7 +250,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public void OnFlyingBubble(InputAction.CallbackContext context)
     {
         //depends on what phase
-        if (!inBubble && canBubble)
+        if (!inBubble && canBubble && BubbleUnlock)
         {
             playerBubble.GetComponent<Animator>().Play("Inflate");
             Debug.Log("launch");
@@ -279,7 +281,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        if(canDash)
+        if(canDash && DashUnlock)
         {
             canDash = false;
             currentSpeed = 0;
