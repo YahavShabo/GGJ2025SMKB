@@ -1918,6 +1918,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2186121394166137448, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 6645539976239598806, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
       propertyPath: m_Size.y
       value: 1.2297192
@@ -3134,6 +3138,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Hand (15)
       objectReference: {fileID: 0}
+    - target: {fileID: 4811416822771016604, guid: 3c14c0ac9b4c818439f0e123595c2a40, type: 3}
+      propertyPath: m_SortingOrder
+      value: 2
+      objectReference: {fileID: 0}
     - target: {fileID: 4811416822771016607, guid: 3c14c0ac9b4c818439f0e123595c2a40, type: 3}
       propertyPath: m_RootOrder
       value: 4
@@ -3503,7 +3511,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 7767177219789288723, guid: f4555ced11ea3432faa445787fe34f39, type: 3}
       propertyPath: m_SortingOrder
-      value: -2
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8047339706326524762, guid: f4555ced11ea3432faa445787fe34f39, type: 3}
       propertyPath: m_TagString
