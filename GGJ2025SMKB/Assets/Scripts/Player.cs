@@ -42,6 +42,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     float jumpCD = 1f;
     public GameObject hand;
     public GameObject playerBubble;
+    public int currentPhase = 0;
+    public bool canBubble=true;
+    public bool canDash = true;
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -61,12 +64,17 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     // Update is called once per frame
     void Update()
     {
-        if (inBubble)
+        if (inBubble && currentPhase == 2)
         {
             transform.Translate(move * currentSpeed * Time.deltaTime);
             anim.SetBool("walking", false);
         }
-        else
+        if (inBubble)
+        {
+            transform.Translate(0, move.y * currentSpeed * Time.deltaTime, 0);
+            anim.SetBool("walking", false);
+        }
+        if(!inBubble)
         {
             transform.Translate(move.x * currentSpeed * Time.deltaTime, 0, 0);
         }
@@ -231,8 +239,17 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public void OnFlyingBubble(InputAction.CallbackContext context)
     {
         //depends on what phase
-        playerBubble.GetComponent<Animator>().Play("Inflate");
-        Debug.Log("launch");
+        if (!inBubble && canBubble)
+        {
+            playerBubble.GetComponent<Animator>().Play("Inflate");
+            Debug.Log("launch");
+            canBubble = false;
+        }
+        else if (inBubble)
+        {
+            playerBubble.GetComponent<Animator>().Play("PlayerBubblePop");
+        }
+        
     }
 
     public void OnJump(InputAction.CallbackContext context)
@@ -253,20 +270,34 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
 
     public void OnDash(InputAction.CallbackContext context)
     {
-        currentSpeed = 0;
-        anim.Play("Dash");
+        if(canDash)
+        {
+            canDash = false;
+            currentSpeed = 0;
+            anim.Play("Dash");
+        }
+
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
         if (collision.collider.tag == "Ground")
         {
             grounded = true;
+            canJump = true;
             lastGround = Time.timeSinceLevelLoad;
             canJump = true; // Allow jumping when grounded
             if(!jumping && grounded)
             {
                 anim.Play("Idle");
             }
+        }
+    }
+    private void OnCollisionStay2D(Collision2D collision)
+    {
+        if(collision.collider.tag == "Ground")
+        {
+            canBubble = true;
+            canDash = true;
         }
     }
 
@@ -276,6 +307,10 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         {
             grounded = false;
             canJump = false; // Disable jumping when not grounded
+            if(inBubble)
+            {
+                canBubble = false;
+            }
         }
     }
 
