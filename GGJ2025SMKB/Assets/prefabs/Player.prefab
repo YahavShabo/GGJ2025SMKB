@@ -84,7 +84,7 @@ MonoBehaviour:
   fireRate: 0.5
   rot: {fileID: 2186121393502679565}
   point: {fileID: 2186121394548481303}
-  bubble: {fileID: 0}
+  bubble: {fileID: 1865600709053046631, guid: e0c900698b5dc214da64acc85be1c2a4, type: 3}
   life: 0
   maxLife: 1
   angle: 0

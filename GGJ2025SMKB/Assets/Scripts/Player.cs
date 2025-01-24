@@ -31,8 +31,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public bool inBubble = false;//if inside of a bubble gs = 0
     public Animator anim;
     public float jumpForce = 3f;
-    bool canJump = true;
-    bool grounded;
+    public bool canJump = true;
+    public bool grounded = true;
+    public bool jumping = false;
     float lastGround;
     float jumpCD = 1f;
     void Awake() 
@@ -57,19 +58,11 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if (inBubble)
         {
             transform.Translate(move * moveSpeed * Time.deltaTime);
-            anim.Play("Idle");
+            anim.SetBool("walking", false);
         }
         else
         {
             transform.Translate(move.x * moveSpeed * Time.deltaTime, 0, 0);
-            if(move.x !=0)
-            {
-                anim.Play("Walk");
-            }
-        }
-        if (move.x == 0)
-        {
-            anim.Play("Idle");
         }
         Aim();
         Fire();
@@ -85,11 +78,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if (context.performed)
         {
             move = context.ReadValue<Vector2>();
+            anim.SetBool("walking", true);
         }
         else
         {
             move = Vector2.zero;
-            
+            anim.SetBool("walking", false);
         }
     }
 
@@ -180,6 +174,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         aimDir = 1;
         angle = 0;
         rot.transform.rotation = Quaternion.Euler(0, 0, 0);
+        GetComponent<Rigidbody2D>().velocity = Vector2.zero;
+        jumping = false;
+        grounded = true;
+        lastfire = -fireRate;
+        lastGround = -jumpCD;
+        canJump = true;
         controls.Disable();
         Invoke("TurnOnInputSystem", resetDelay);//one sec delay
         //disable and enable input system
@@ -195,6 +195,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             else
             {
                 anim.Play("Hit React");
+                //prevent from movement
             }
         }
     }
@@ -213,34 +214,38 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (context.performed && canJump)
         {
-            //call jump anim
+            anim.Play("Jump");
+            jumping = true;
             canJump = false;
+            Debug.Log("jumpCalled");
         }
     }
     public void Jump()
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpForce);
+        Debug.Log("jump");
     }
-    private void OnCollisionStay2D(Collision2D collision)
+    private void OnCollisionEnter2D(Collision2D collision)
     {
-        if (grounded && Time.timeSinceLevelLoad >= lastGround + jumpCD)
-        {
-            canJump = true;
-        }
-    }
-    private void OnCollisionEnter2D(Collision2D other)
-    {
-        if (other.collider.tag == "Ground")
+        if (collision.collider.tag == "Ground")
         {
             grounded = true;
             lastGround = Time.timeSinceLevelLoad;
+            canJump = true; // Allow jumping when grounded
+            if(!jumping && grounded)
+            {
+                anim.Play("Idle");
+            }
         }
     }
-    private void OnCollisionExit2D(Collision2D other)
+
+    private void OnCollisionExit2D(Collision2D collision)
     {
-        if (other.collider.tag == "Ground")
+        if (collision.collider.tag == "Ground")
         {
             grounded = false;
+            canJump = false; // Disable jumping when not grounded
         }
     }
+
 }
