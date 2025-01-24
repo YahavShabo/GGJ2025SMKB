@@ -5,6 +5,7 @@ using UnityEngine;
 public class Enemy : MonoBehaviour
 {
     Transform player;
+    public bool isStatic=false;
     public float speed = 3;
     public float attactkRate=2;
     public float LastAttackTime=0;
@@ -35,14 +36,18 @@ public class Enemy : MonoBehaviour
         {
             MoveFreely();
         }
-        transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
-        // Ensure the position stays within leftX and rightX
-        float clampedX = Mathf.Clamp(transform.position.x, leftX, rightX);
-        transform.position = new Vector2(clampedX, transform.position.y);
+        if(!isStatic) 
+        {
+            transform.Translate(new Vector3(speed * Time.deltaTime, 0, 0));
+            // Ensure the position stays within leftX and rightX
+            float clampedX = Mathf.Clamp(transform.position.x, leftX, rightX);
+            transform.position = new Vector2(clampedX, transform.position.y);
+        }
         if(Time.timeSinceLevelLoad - LastAttackTime >= attactkRate && playerClose)
         {
             Attack();
         }
+
     }
     protected void FacePlayer()
     {

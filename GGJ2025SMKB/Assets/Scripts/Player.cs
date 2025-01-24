@@ -50,6 +50,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public bool BubbleUnlock = false;
     public bool DashUnlock = false;
     public bool CanFly = false;
+    public Vector3 smallBubbleScale = new Vector3(0.2f, 0.2f, 0.2f);
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -193,7 +194,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             GameObject lastBubble;
             hand.GetComponent<Animator>().Play("Reload", 0, 0f);
             lastfire = Time.timeSinceLevelLoad;
-            lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity);
+            lastBubble = Instantiate(bubble, point.transform.position , Quaternion.identity) as GameObject;
             if(aim.x == 0)
             {
                 lastBubble.GetComponent<Bubble>().transVec = new Vector3(transform.localScale.x, aim.y, 0).normalized;
@@ -202,6 +203,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             {
                 lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized;
             }
+            lastBubble.transform.localScale = smallBubbleScale;
             Debug.Log(lastBubble.GetComponent<Bubble>().transVec);
         }
     }
@@ -317,8 +319,10 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if(collision.collider.tag == "Ground")
         {
-            canBubble = true;
-            canDash = true;
+            grounded = true;
+            canJump = true;
+            lastGround = Time.timeSinceLevelLoad;
+            canJump = true; // Allow jumping when grounded
         }
     }
 

@@ -8,6 +8,7 @@ TagManager:
   - spike
   - Ground
   - Bubble
+  - Structure
   layers:
   - Default
   - TransparentFX
