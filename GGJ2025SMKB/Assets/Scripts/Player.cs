@@ -45,6 +45,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public int currentPhase = 0;
     public bool canBubble=true;
     public bool canDash = true;
+    public float xKnockBack = 3;
+    public float yKnockBack = 2;
     void Awake() 
     {
         anim = GetComponent<Animator>();
@@ -220,6 +222,13 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (other.tag == "enemy" || other.tag == "spike")
         {
+            life--;
+            int knockDirection=1;
+            if(transform.position.x>=other.transform.position.x)
+            {
+                knockDirection = -1;
+            }
+            GetComponent<Rigidbody2D>().velocity = new Vector2(xKnockBack * knockDirection, yKnockBack);
             if (life <= 0)
             {
                 EventManager.RevertPhase?.Invoke();
