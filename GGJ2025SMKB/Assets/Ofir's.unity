@@ -218,10 +218,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Player
       objectReference: {fileID: 0}
-    - target: {fileID: 2186121393835510243, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
-      propertyPath: bubble
-      value: 
-      objectReference: {fileID: 1865600709053046631, guid: e0c900698b5dc214da64acc85be1c2a4, type: 3}
     - target: {fileID: 2186121393835510252, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
       propertyPath: m_RootOrder
       value: 1
@@ -265,22 +261,6 @@ PrefabInstance:
     - target: {fileID: 2186121393835510252, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2186121394084343982, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2186121394166137448, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
-      propertyPath: m_SortingOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2186121394166137450, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.x
-      value: 2.0109136
-      objectReference: {fileID: 0}
-    - target: {fileID: 2186121394166137450, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
-      propertyPath: m_SpriteTilingProperty.oldSize.y
-      value: 2.9280002
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: faa23fea1e6d17c4caed6cfc71dd0ed0, type: 3}
@@ -447,6 +427,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   attackDelay: 0.5
+  Rising: 0
 --- !u!50 &1053189297
 Rigidbody2D:
   serializedVersion: 4
@@ -481,7 +462,7 @@ GameObject:
   - component: {fileID: 1138937975}
   m_Layer: 0
   m_Name: Square
-  m_TagString: Untagged
+  m_TagString: Ground
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

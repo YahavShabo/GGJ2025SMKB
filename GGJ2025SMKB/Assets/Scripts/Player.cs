@@ -11,7 +11,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
 {
     GameControls controls;
     public float defaultGS; // Gravity scale
+    public float currentSpeed=4f;
     public float moveSpeed = 4f;
+    public float dashSpeed = 15f;
     public float fireRate = 0.5f;
     public Transform rot;
     public Transform point;
@@ -34,6 +36,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public bool canJump = true;
     public bool grounded = true;
     public bool jumping = false;
+    public bool canShoot;
+    public bool isDashing=false;
     float lastGround;
     float jumpCD = 1f;
     void Awake() 
@@ -57,12 +61,20 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (inBubble)
         {
-            transform.Translate(move * moveSpeed * Time.deltaTime);
+            transform.Translate(move * currentSpeed * Time.deltaTime);
             anim.SetBool("walking", false);
         }
         else
         {
-            transform.Translate(move.x * moveSpeed * Time.deltaTime, 0, 0);
+            transform.Translate(move.x * currentSpeed * Time.deltaTime, 0, 0);
+        }
+        if(isDashing)
+        {
+            transform.Translate(moveDir * dashSpeed * Time.deltaTime, 0, 0);
+        }
+        else
+        {
+            currentSpeed = moveSpeed;
         }
         Aim();
         Fire();
@@ -75,7 +87,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
 
     public void OnMovment(InputAction.CallbackContext context)
     {
-        if (context.performed)
+        if (context.performed && !isDashing)
         {
             move = context.ReadValue<Vector2>();
             anim.SetBool("walking", true);
@@ -149,7 +161,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     }
     public void Fire()
     {
-        if (holdingFire && Time.timeSinceLevelLoad >= lastfire + fireRate)
+        if (holdingFire && Time.timeSinceLevelLoad >= lastfire + fireRate && canShoot && !isDashing)
         {
             GameObject lastBubble;
             //add fire anim of somekind
@@ -224,6 +236,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         GetComponent<Rigidbody2D>().velocity = new Vector2(0, jumpForce);
         Debug.Log("jump");
+    }
+
+    public void OnDash(InputAction.CallbackContext context)
+    {
+        currentSpeed = 0;
+        anim.Play("Dash");
     }
     private void OnCollisionEnter2D(Collision2D collision)
     {
