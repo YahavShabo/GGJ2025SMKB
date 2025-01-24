@@ -28,8 +28,11 @@ public class Bubble : MonoBehaviour
         }
     }
     public void Pop()
+    {
+        GetComponent<Animator>().Play("Pop");
+    }
+    public void DestroyBubble()
     { 
-        //use bubble pop animation
         Destroy(gameObject);
     }
 }
