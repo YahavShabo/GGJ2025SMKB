@@ -126,7 +126,7 @@ BoxCollider2D:
   m_Enabled: 1
   m_Density: 1
   m_Material: {fileID: 0}
-  m_IsTrigger: 1
+  m_IsTrigger: 0
   m_UsedByEffector: 0
   m_UsedByComposite: 0
   m_Offset: {x: -0.005657196, y: 0.32534838}
@@ -250,11 +250,13 @@ MonoBehaviour:
   isDashing: 0
   hand: {fileID: 2186121394084343980}
   playerBubble: {fileID: 5119570495402970435}
-  currentPhase: 0
   canBubble: 1
   canDash: 1
   xKnockBack: 3
   yKnockBack: 2
+  BubbleUnlock: 0
+  DashUnlock: 0
+  CanFly: 0
 --- !u!50 &2186121393835510253
 Rigidbody2D:
   serializedVersion: 4

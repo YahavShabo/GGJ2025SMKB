@@ -7,7 +7,7 @@ public class MoveCam : MonoBehaviour
 
     public Transform player;
     public float Yoffset;
-    public float leftX = -103f;
+    public float leftX = -102.9f;
     public float rightX = 103.6f;
     // Start is called before the first frame update
     void Start()
