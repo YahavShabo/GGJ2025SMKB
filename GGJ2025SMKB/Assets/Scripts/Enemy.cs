@@ -59,7 +59,7 @@ public class Enemy : MonoBehaviour
             faceDirection = -1;
             transform.rotation = Quaternion.Euler(0, 180, 0);
         }
-        if (Time.timeSinceLevelLoad - LastAttackTime >= attactkRate)
+        if (Time.timeSinceLevelLoad - LastAttackTime >= attactkRate && playerClose)
         {
             Attack();
         }
@@ -98,6 +98,7 @@ public class Enemy : MonoBehaviour
     public virtual void Attack()
     {
         //play animation
+        Debug.Log("enemy");
         LastAttackTime = Time.timeSinceLevelLoad;
     }
 }

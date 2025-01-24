@@ -124,6 +124,7 @@ GameObject:
   - component: {fileID: 2252502861506687232}
   - component: {fileID: 2251821586478383471}
   - component: {fileID: 8830793069513231259}
+  - component: {fileID: 3677517350714092059}
   m_Layer: 0
   m_Name: 6 spiked Hedgehog
   m_TagString: Untagged
@@ -140,7 +141,7 @@ Transform:
   m_GameObject: {fileID: 2252502861506687233}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 5.39, y: -3.25, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1.5654727}
+  m_LocalScale: {x: 0.7617, y: 0.7617, z: 1.1924205}
   m_ConstrainProportionsScale: 0
   m_Children:
   - {fileID: 8452789348520196726}
@@ -193,7 +194,7 @@ SpriteRenderer:
   m_LightmapParameters: {fileID: 0}
   m_SortingLayerID: 0
   m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingOrder: 3
   m_Sprite: {fileID: -113405462, guid: 2cc09699cfac95148be88b4ae7250ddd, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 1
@@ -242,8 +243,8 @@ MonoBehaviour:
   attactkRate: 4
   LastAttackTime: 0
   faceDirection: 0
-  leftX: 0
-  rightX: 0
+  leftX: 97.1313
+  rightX: 102.53
 --- !u!61 &8830793069513231259
 BoxCollider2D:
   m_ObjectHideFlags: 0
@@ -270,6 +271,24 @@ BoxCollider2D:
   serializedVersion: 2
   m_Size: {x: 2.7582772, y: 1.6857144}
   m_EdgeRadius: 0
+--- !u!114 &3677517350714092059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252502861506687233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 6392932dc8404224bab0e5c02dc28065, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  defaultGS: 1
+  currentGS: 0
+  hitTime: 0
+  recoverDelay: 3
+  recoverRate: 0.05
+  rb: {fileID: 0}
 --- !u!1 &2252502862643786307
 GameObject:
   m_ObjectHideFlags: 0
@@ -950,7 +969,7 @@ CircleCollider2D:
   m_UsedByComposite: 0
   m_Offset: {x: 0, y: 0}
   serializedVersion: 2
-  m_Radius: 7
+  m_Radius: 9
 --- !u!1 &8932005660365316684
 GameObject:
   m_ObjectHideFlags: 0

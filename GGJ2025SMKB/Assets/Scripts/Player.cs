@@ -10,6 +10,7 @@ using UnityEngine.InputSystem;
 public class Player : MonoBehaviour, GameControls.IControlsActions
 {
     GameControls controls;
+    Vector2 startPos;
     public float defaultGS; // Gravity scale
     public float currentSpeed=4f;
     public float moveSpeed = 4f;
@@ -63,6 +64,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         lastfire = -fireRate;
         lastGround = -jumpCD;
+        startPos = transform.position;
     }
 
     // Update is called once per frame
@@ -94,6 +96,7 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         Fire();
         if (Input.GetKeyDown(KeyCode.R)) // Example: Press "R" to trigger the event
         {
+            Revert();
             EventManager.RevertPhase?.Invoke();
             Debug.Log("RevertPhase event invoked.");
         }
@@ -202,6 +205,12 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
             Debug.Log(lastBubble.GetComponent<Bubble>().transVec);
         }
     }
+
+    public void Revert()
+    {
+        transform.position = startPos;
+        life = maxLife;
+    }
     public void RevertStats()
     {
         life = GetComponent<Player>().maxLife;
@@ -225,15 +234,16 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if (other.tag == "enemy" || other.tag == "spike")
         {
             life--;
-            int knockDirection=1;
+            int knockDirection=-1;
             if(transform.position.x>=other.transform.position.x)
             {
-                knockDirection = -1;
+                knockDirection = 1;
             }
             GetComponent<Rigidbody2D>().velocity = new Vector2(xKnockBack * knockDirection, yKnockBack);
             if (life <= 0)
             {
-                EventManager.RevertPhase?.Invoke();
+                Revert();
+                //EventManager.RevertPhase?.Invoke();
             }
             else
             {

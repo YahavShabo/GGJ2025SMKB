@@ -8,6 +8,7 @@ public class Hedgehog : Enemy
 
     public override void Attack()
     {
+        Debug.Log("hedgehog");
         base.Attack();
         foreach (Transform child in transform)
         {
