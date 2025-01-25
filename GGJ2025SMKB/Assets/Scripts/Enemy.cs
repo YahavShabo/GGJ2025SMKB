@@ -13,6 +13,7 @@ public class Enemy : MonoBehaviour
     //x positions to turn around on when moving freely
     public float leftX=0;
     public float rightX=0;
+    public AudioSource attackSound;
     bool playerClose;
     // Start is called before the first frame update
     void Start()
@@ -23,6 +24,7 @@ public class Enemy : MonoBehaviour
             rightX= transform.position.x + 5;
         }
         LastAttackTime = -attactkRate;
+        attackSound = GetComponent<AudioSource>();
     }
 
     // Update is called once per frame
@@ -102,8 +104,10 @@ public class Enemy : MonoBehaviour
     }
     public virtual void Attack()
     {
-        //play animation
-        Debug.Log("enemy");
+        if(attackSound!= null)
+        {
+            attackSound.Play();
+        }
         LastAttackTime = Time.timeSinceLevelLoad;
     }
 }

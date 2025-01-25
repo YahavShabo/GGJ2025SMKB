@@ -9,6 +9,7 @@ TagManager:
   - Ground
   - Bubble
   - Structure
+  - Sound
   layers:
   - Default
   - TransparentFX

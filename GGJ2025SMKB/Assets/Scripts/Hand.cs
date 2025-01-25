@@ -4,15 +4,16 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    public float attackRate=1f;
-    public float attackDelay = 0.3f;
+    public float attackRate=5f;
     Animator anim;
     float resetTime;
     float attackTime;
     public bool Rising = false;
+    public AudioSource attack;
     // Start is called before the first frame update
     void Start()
     {
+        attack = GetComponent<AudioSource>();
         anim = GetComponent<Animator>();
         attackTime = -attackRate;
     }
@@ -27,16 +28,14 @@ public class Hand : MonoBehaviour
             Destroy(GetComponent<PolygonCollider2D>());
             resetTime = Time.timeSinceLevelLoad;
         }
-    }
-    private void OnTriggerEnter2D(Collider2D other)
-    {
-        if(other.tag == "Player" && Time.timeSinceLevelLoad - attackTime >=attackRate)
+        if(Time.timeSinceLevelLoad - attackTime >= attackRate)
         {
-            Invoke(nameof(Attack), attackDelay);
+            Attack();
         }
     }
     public void Attack()
     {
+        attack.Play();
         attackTime= Time.timeSinceLevelLoad;
         anim.Play("Hand");
     }

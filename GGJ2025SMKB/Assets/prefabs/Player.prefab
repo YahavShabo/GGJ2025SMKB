@@ -96,7 +96,7 @@ GameObject:
   - component: {fileID: 6645539976239598806}
   m_Layer: 0
   m_Name: Body Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -233,7 +233,7 @@ MonoBehaviour:
   point: {fileID: 2186121394548481303}
   bubble: {fileID: 1865600709053046631, guid: e0c900698b5dc214da64acc85be1c2a4, type: 3}
   life: 0
-  maxLife: 1
+  maxLife: 3
   angle: 0
   moveDir: 1
   resetDelay: 1
@@ -242,7 +242,7 @@ MonoBehaviour:
   move: {x: 0, y: 0}
   inBubble: 0
   anim: {fileID: 0}
-  jumpForce: 3
+  jumpForce: 9
   canJump: 1
   grounded: 1
   jumping: 0
@@ -252,7 +252,7 @@ MonoBehaviour:
   playerBubble: {fileID: 5119570495402970435}
   canBubble: 1
   canDash: 1
-  xKnockBack: 4
+  xKnockBack: 7
   yKnockBack: 3
   BubbleUnlock: 0
   DashUnlock: 0
@@ -656,7 +656,7 @@ GameObject:
   - component: {fileID: 2951790408719689486}
   m_Layer: 0
   m_Name: Head Collider
-  m_TagString: Untagged
+  m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

@@ -9,9 +9,11 @@ public class Bubble : MonoBehaviour
     public Vector3 transVec;
     public float destroyTime = 5;
     public float hitTime;
+    public AudioSource pop;
     // Start is called before the first frame update
     void Start()
     {
+        pop = GetComponent<AudioSource>();
         if(transform.parent == null)
         {
             Invoke("Pop", destroyTime);
@@ -40,6 +42,7 @@ public class Bubble : MonoBehaviour
     }
     public void Pop()
     {
+        pop.Play();
         GetComponent<Animator>().Play("Pop");
     }
     public void ResetGravity()
