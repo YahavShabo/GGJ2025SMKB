@@ -7,6 +7,8 @@ public class CheckPoint : MonoBehaviour
     public int ID = 0;
     public GameObject blockWall;
     public GameObject cam;
+    public GameObject reaper;
+    bool enterd=false;//entered the checkpoint
 
     private void Start()
     {
@@ -16,12 +18,13 @@ public class CheckPoint : MonoBehaviour
     {
         if (other.tag == "Player")
         {
-            if (ID > 0)
+            if (ID > 0 && !enterd)
             {
-                Player player = other.GetComponent<Player>();
-                player.maxLife = ID;
-                player.life = ID;
-                other.GetComponent<Reverter>().originalSp = other.transform.position;
+                enterd = true;
+                Player player = other.GetComponentInParent<Player>();
+                player.maxLife++;
+                player.life = player.maxLife;
+                other.GetComponentInParent<Reverter>().originalSp = other.transform.position;
                 blockWall.SetActive(true);
                 if(ID ==1)
                 {
@@ -31,8 +34,10 @@ public class CheckPoint : MonoBehaviour
                 if(ID ==2)
                 {
                     cam.GetComponent<MoveCam>().leftX = 35.07f;
+                    player.BubbleUnlock = true;
                     player.DashUnlock = true;
                     player.CanFly = true;
+                    reaper.SetActive(true);
                 }
             }
         }

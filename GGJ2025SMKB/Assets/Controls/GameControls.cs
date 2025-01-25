@@ -272,6 +272,17 @@ public partial class @GameControls : IInputActionCollection2, IDisposable
                 },
                 {
                     ""name"": """",
+                    ""id"": ""60491b90-eb73-4e92-b8a3-0c9115960920"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
+                    ""action"": ""Jump"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
                     ""id"": ""aacb26ec-e5bb-49bc-b2e0-e6b7698447a0"",
                     ""path"": ""<Gamepad>/leftTrigger"",
                     ""interactions"": """",

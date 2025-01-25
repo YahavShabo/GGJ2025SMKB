@@ -252,11 +252,14 @@ MonoBehaviour:
   playerBubble: {fileID: 5119570495402970435}
   canBubble: 1
   canDash: 1
-  xKnockBack: 3
-  yKnockBack: 2
+  xKnockBack: 4
+  yKnockBack: 3
   BubbleUnlock: 0
   DashUnlock: 0
   CanFly: 0
+  smallBubbleScale: {x: 0.2, y: 0.2, z: 0.2}
+  hitCooldown: 0.2
+  GameOver: {fileID: 0}
 --- !u!50 &2186121393835510253
 Rigidbody2D:
   serializedVersion: 4
@@ -640,6 +643,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   anim: {fileID: 0}
+  isDeflating: 0
 --- !u!1 &5458074132069781170
 GameObject:
   m_ObjectHideFlags: 0

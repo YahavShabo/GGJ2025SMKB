@@ -4,15 +4,17 @@ using UnityEngine;
 
 public class Hand : MonoBehaviour
 {
-    public float attackDelay=0.5f;
+    public float attackRate=1f;
+    public float attackDelay = 0.3f;
     Animator anim;
     float resetTime;
+    float attackTime;
     public bool Rising = false;
     // Start is called before the first frame update
     void Start()
     {
         anim = GetComponent<Animator>();
-        resetTime = -attackDelay;
+        attackTime = -attackRate;
     }
 
     // Update is called once per frame
@@ -28,10 +30,14 @@ public class Hand : MonoBehaviour
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
-        if(other.tag == "Player")
+        if(other.tag == "Player" && Time.timeSinceLevelLoad - attackTime >=attackRate)
         {
-            Debug.Log("Player");
-            anim.Play("Hand");
+            Invoke(nameof(Attack), attackDelay);
         }
+    }
+    public void Attack()
+    {
+        attackTime= Time.timeSinceLevelLoad;
+        anim.Play("Hand");
     }
 }

@@ -1,15 +1,17 @@
-using Mono.Cecil;
-using System.Collections;
-using System.Collections.Generic;
-using System.Drawing;
-using Unity.VisualScripting;
-using UnityEditor.U2D.Path.GUIFramework;
+//using Mono.Cecil;
+//using System.Collections;
+//using System.Collections.Generic;
+//using System.Drawing;
+//using Unity.VisualScripting;
+//using UnityEditor.U2D.Path.GUIFramework;
 using UnityEngine;
 using UnityEngine.InputSystem;
+using UnityEngine.SceneManagement;
 
-public class Player : MonoBehaviour, GameControls.IControlsActions
+public class Player : MonoBehaviour, GameControls.IControlsActions, GameOver.IRestartActions
 {
     GameControls controls;
+    GameOver resetControls;
     Vector2 startPos;
     public float defaultGS; // Gravity scale
     public float currentSpeed=4f;
@@ -51,12 +53,18 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     public bool DashUnlock = false;
     public bool CanFly = false;
     public Vector3 smallBubbleScale = new Vector3(0.2f, 0.2f, 0.2f);
+    //hit handling
+    private bool isHit = false; // To prevent duplicate hits
+    public float hitCooldown = 0.2f; // Time in seconds to prevent multiple hits
+    private float lastHitTime;
+    public GameObject GameOver;
     void Awake() 
     {
+        resetControls = new GameOver();
+        resetControls.Restart.SetCallbacks(this);
         anim = GetComponent<Animator>();
         life = maxLife;
         controls = new GameControls();
-        controls.Enable();
         controls.Controls.SetCallbacks(this);
         defaultGS = GetComponent<Rigidbody2D>().gravityScale;
     }
@@ -66,6 +74,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         lastfire = -fireRate;
         lastGround = -jumpCD;
         startPos = transform.position;
+        lastHitTime = -hitCooldown;
+        controls.Enable();
+        resetControls.Enable();
     }
 
     // Update is called once per frame
@@ -95,12 +106,6 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         }
         Aim();
         Fire();
-        if (Input.GetKeyDown(KeyCode.R)) // Example: Press "R" to trigger the event
-        {
-            Revert();
-            EventManager.RevertPhase?.Invoke();
-            Debug.Log("RevertPhase event invoked.");
-        }
         if (playerBubble.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Inflate") || playerBubble.GetComponent<Animator>().GetCurrentAnimatorStateInfo(0).IsName("Deflate"))
         {
             inBubble = true;
@@ -204,7 +209,6 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
                 lastBubble.GetComponent<Bubble>().transVec = new Vector3(aim.x, aim.y, 0).normalized;
             }
             lastBubble.transform.localScale = smallBubbleScale;
-            Debug.Log(lastBubble.GetComponent<Bubble>().transVec);
         }
     }
 
@@ -235,22 +239,35 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
     {
         if (other.tag == "enemy" || other.tag == "spike")
         {
-            life--;
-            int knockDirection=-1;
-            if(transform.position.x>=other.transform.position.x)
-            {
-                knockDirection = 1;
-            }
-            GetComponent<Rigidbody2D>().velocity = new Vector2(xKnockBack * knockDirection, yKnockBack);
-            if (life <= 0)
-            {
-                Revert();
-                //EventManager.RevertPhase?.Invoke();
-            }
-            else
+            if(other.name == "Grim Reaper")
             {
                 anim.Play("Hit React");
-                //prevent from movement
+                GameOver.SetActive(true);
+                controls.Disable();
+                //end game
+            }
+            else if(Time.time - lastHitTime >= hitCooldown)
+            {
+                life--;
+                int knockDirection = -1;
+                if (transform.position.x >= other.transform.position.x)
+                {
+                    lastHitTime = Time.timeSinceLevelLoad; // Update the last hit time
+                    knockDirection = 1;
+                }
+                if (playerBubble.GetComponent<PlayerBubble>().isDeflating == false)
+                {
+                    GetComponent<Rigidbody2D>().velocity = new Vector2(xKnockBack * knockDirection, yKnockBack);
+                }
+                if (life <= 0)
+                {
+                    EventManager.InvokeRevertPhase();
+                }
+                else
+                {
+                    anim.Play("Hit react");
+                    //prevent from movement
+                }
             }
         }
     }
@@ -264,8 +281,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         //depends on what phase
         if (!inBubble && canBubble && BubbleUnlock)
         {
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;
             playerBubble.GetComponent<Animator>().Play("Inflate");
-            Debug.Log("launch");
             canBubble = false;
         }
         else if (inBubble)
@@ -297,7 +314,9 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         {
             canDash = false;
             currentSpeed = 0;
+            GetComponent<Rigidbody2D>().velocity = Vector2.zero;//Reset KnockBack
             anim.Play("Dash");
+            playerBubble.GetComponent<PlayerBubble>().BubbleDash();
         }
 
     }
@@ -307,6 +326,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         {
             grounded = true;
             canJump = true;
+            canBubble= true;
+            canDash = true;
             lastGround = Time.timeSinceLevelLoad;
             canJump = true; // Allow jumping when grounded
             if(!jumping && grounded)
@@ -320,7 +341,8 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         if(collision.collider.tag == "Ground")
         {
             grounded = true;
-            canJump = true;
+            canBubble = true;
+            canDash= true;
             lastGround = Time.timeSinceLevelLoad;
             canJump = true; // Allow jumping when grounded
         }
@@ -339,4 +361,10 @@ public class Player : MonoBehaviour, GameControls.IControlsActions
         }
     }
 
+    public void OnRestart(InputAction.CallbackContext context)
+    {
+        controls.Enable();
+        GameOver.SetActive(false);
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

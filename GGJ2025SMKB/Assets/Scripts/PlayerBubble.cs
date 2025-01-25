@@ -1,13 +1,14 @@
 //using System.Collections;
 //using System.Collections.Generic;
 //using Unity.VisualScripting;
+//using UnityEditor;
 using UnityEngine;
 //using UnityEngine.UIElements;
 
 public class PlayerBubble : MonoBehaviour
 {
     public Animator anim;
-    Vector3 scale;
+    public bool isDeflating=false;
     // Start is called before the first frame update
     void Start()
     {
@@ -17,8 +18,8 @@ public class PlayerBubble : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
     }
+
     public void Deflate()
     {
         anim.Play("Deflate");
@@ -30,5 +31,9 @@ public class PlayerBubble : MonoBehaviour
     public void Deactivate()
     {
         anim.Play("Deactivated");
+    }
+    public void BubbleDash()
+    {
+        anim.Play("BubbleDash");
     }
 }

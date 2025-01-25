@@ -1,0 +1,45 @@
+{
+    "name": "GameOver",
+    "maps": [
+        {
+            "name": "Restart",
+            "id": "99588ad5-7858-48e3-a1ab-cc98bb7df29d",
+            "actions": [
+                {
+                    "name": "Restart",
+                    "type": "Button",
+                    "id": "09d4801d-2357-416d-b1ea-9aa68a4e581d",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": "",
+                    "initialStateCheck": false
+                }
+            ],
+            "bindings": [
+                {
+                    "name": "",
+                    "id": "7503d939-00a2-4b17-9a4a-86be9db2cea3",
+                    "path": "<Gamepad>/start",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "f3cf5ffd-be2d-4e80-a771-62d5c80d06b1",
+                    "path": "<Keyboard>/r",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "",
+                    "action": "Restart",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                }
+            ]
+        }
+    ],
+    "controlSchemes": []
+}

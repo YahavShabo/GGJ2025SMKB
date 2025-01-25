@@ -125,6 +125,7 @@ GameObject:
   - component: {fileID: 2251821586478383471}
   - component: {fileID: 8830793069513231259}
   - component: {fileID: 3677517350714092059}
+  - component: {fileID: -6679340793107729297}
   m_Layer: 0
   m_Name: 6 spiked Hedgehog
   m_TagString: enemy
@@ -291,7 +292,21 @@ MonoBehaviour:
   recoverRate: 0.05
   bubbleIncrease: {x: 0.1, y: 0.1, z: 0.1}
   Bubble: {fileID: 1865600709053046631, guid: e0c900698b5dc214da64acc85be1c2a4, type: 3}
+  currentBubble: {fileID: 0}
   rb: {fileID: 0}
+--- !u!114 &-6679340793107729297
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2252502861506687233}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1c498d614719cc5448a524f21bbc1a11, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  originalSp: {x: 0, y: 0}
 --- !u!1 &2252502862643786307
 GameObject:
   m_ObjectHideFlags: 0

@@ -9,6 +9,7 @@ public class MoveCam : MonoBehaviour
     public float Yoffset;
     public float leftX = -102.9f;
     public float rightX = 103.6f;
+    public float speed = 3f;
     // Start is called before the first frame update
     void Start()
     {
@@ -19,6 +20,10 @@ public class MoveCam : MonoBehaviour
     void Update()
     {
         float clampedX = Mathf.Clamp(player.position.x, leftX, rightX);
+        if(transform.position.x<clampedX)
+        {
+            transform.position = Vector3.MoveTowards(transform.position,new Vector3(clampedX, player.position.y + Yoffset, -10),3f);
+        }
         transform.position = new Vector3(clampedX, player.position.y + Yoffset,-10);
     }
 }

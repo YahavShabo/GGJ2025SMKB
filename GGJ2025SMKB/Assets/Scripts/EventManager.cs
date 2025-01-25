@@ -5,5 +5,10 @@ using UnityEngine;
 
 public class EventManager : MonoBehaviour
 {
-    public static Action RevertPhase;
+    public static event Action RevertPhase;
+
+    public static void InvokeRevertPhase()
+    {
+        RevertPhase?.Invoke();
+    }
 }
